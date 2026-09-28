@@ -1,5 +1,5 @@
 import {React} from 'react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 // Setter del modal que está abierto ahora mismo; se usa para cerrarlo al abrir otro y que solo haya uno a la vez.
@@ -15,6 +15,19 @@ const ModalButton = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef(null);
+
+  // Con el modal abierto la página de fondo no debe moverse: se bloquea su scroll y se compensa el ancho de la barra para que no salte el contenido.
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const { overflow, paddingRight } = document.body.style;
+    const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = 'hidden';
+    if (scrollbar > 0) document.body.style.paddingRight = `${scrollbar}px`;
+    return () => {
+      document.body.style.overflow = overflow;
+      document.body.style.paddingRight = paddingRight;
+    };
+  }, [isModalOpen]);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -79,7 +92,7 @@ const ModalButton = ({
       </div>
       
       {/* Modal body */}
-      <div className="px-6 py-4 modal-content overflow-y-auto flex-grow">
+      <div className="px-6 py-4 modal-content overflow-y-auto overscroll-contain flex-grow">
         {modalContent}
       </div>
       
