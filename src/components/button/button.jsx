@@ -29,27 +29,27 @@ const ModalButton = ({
       <button
         onClick={openModal}
         style={{backgroundColor:backgroundColor}}
-        className={`flex items-center gap-2 px-4 py-2 text-black rounded-md hover:bg-blue-700 transition-colors ${buttonClassName}`}
+        className={`spell-btn flex items-center gap-3 px-3 py-2 text-black text-left ${buttonClassName}`}
         type="button"
       >
-        {icon && <span className="flex items-center w-10 h-10">{icon}</span>} {/*Estilos del Botón*/}
+        {icon && <span className="spell-icon">{icon}</span>} {/*Estilos del Botón*/}
         <span>{title}</span>
       </button>
 
       {/* Modal */}
       {isModalOpen && (
   <div 
-    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+    className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50"
     onClick={handleOverlayClick} 
   >
     <div 
       ref={modalRef} 
-      className="bg-white rounded-lg shadow-lg w-full max-w-md mx-auto flex flex-col max-h-[90vh]" // Ajustado aquí
+      className="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-auto flex flex-col max-h-[90vh] overflow-hidden" // Ajustado aquí
     >
       {/* Modal header */}
       <div className="px-6 py-4 border-b border-gray-200 flex-shrink-0">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="modal-title">
             {modalTitle || title}
           </h3>
           <button

@@ -3,7 +3,7 @@ export const Hechizos = [
     {
         id: 1,
         nivel: "Cantrip",
-        backgroundColor: "#dbdbdb",
+        backgroundColor: "#e2e2e2",
         conjuros: [
             {
                 icono: "../assets/cantrip/agarreElectrizanteIcono.svg",
@@ -335,7 +335,7 @@ export const Hechizos = [
     {
         id: 2,
         nivel: "Nivel 1",
-        backgroundColor: "#9FB8AC",
+        backgroundColor: "#bccbc4",
         conjuros: [
             {
                 icono: "../assets/nivel1/alarma.svg",
@@ -1087,7 +1087,7 @@ export const Hechizos = [
     {
         id: 3,
         nivel: "Nivel 2",
-        backgroundColor: "#9FCCBF",
+        backgroundColor: "#bdd7cf",
         conjuros: [
             {
                 icono: "../assets/nivel2/abrir.svg",
@@ -1803,7 +1803,7 @@ export const Hechizos = [
     {
         id: 4,
         nivel: "Nivel 3",
-        backgroundColor: "#9FD7DC",
+        backgroundColor: "#bddee1",
         conjuros: [
             {
                 icono: "../assets/nivel3/acelerar.svg",
@@ -2411,7 +2411,7 @@ export const Hechizos = [
     {
         id: 5,
         nivel: "Nivel 4",
-        backgroundColor: "#7fb3d5",
+        backgroundColor: "#aac8db",
         conjuros: [
             {
                 icono: "../assets/nivel4/adivinacion.svg",
@@ -2843,7 +2843,7 @@ export const Hechizos = [
     {
         id: 6,
         nivel: "Nivel 5",
-        backgroundColor: "#d2b4de",
+        backgroundColor: "#dccae3",
         conjuros: [
             {
                 icono: "../assets/nivel5/alterarRecuerdos.svg",
@@ -3355,7 +3355,7 @@ export const Hechizos = [
     {
         id: 7,
         nivel: "Nivel 6",
-        backgroundColor: "#f9e79f",
+        backgroundColor: "#f4e9bd",
         conjuros: [
             {
                 icono: "../assets/nivel6/aliadoPlanar.svg",
@@ -3759,7 +3759,7 @@ export const Hechizos = [
     {
         id: 8,
         nivel: "Nivel 7",
-        backgroundColor: "#edbb99",
+        backgroundColor: "#ebceba",
         conjuros: [
             {
                 icono: "../assets/nivel7/bolaFuegoRetardada.svg",
@@ -4014,7 +4014,7 @@ export const Hechizos = [
     {
         id: 9,
         nivel: "Nivel 8",
-        backgroundColor: "#f5b7b1",
+        backgroundColor: "#f2ccc8",
         conjuros: [
             {
                 icono: "../assets/nivel8/antipatiaSimpatia.svg",
@@ -4245,7 +4245,7 @@ export const Hechizos = [
     {
         id: 10,
         nivel: "Nivel 9",
-        backgroundColor: "#d98880",
+        backgroundColor: "#ddafab",
         conjuros: [
             {
                 icono: "../assets/nivel9/cambiarForma.svg",

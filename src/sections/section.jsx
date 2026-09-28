@@ -6,17 +6,20 @@ import './section.css';
 
 const Section = ({ title, conjuros, backgroundColor = [] }) => {
     return (
-    <section className="mx-auto bg-gray-200 rounded-lg p-5 my-4" style={{ backgroundColor: backgroundColor }}>
-        <h2 className="sectionTitle text-left mb-4">{title}</h2>
-            <div className="bg-white rounded p-4 shadow-sm">
+    <section className="section-card mx-auto" style={{ backgroundColor: backgroundColor }}>
+        <h2 className="sectionTitle text-left mb-4 flex items-center gap-3">
+            {title}
+            <span className="count-badge" aria-label={`${conjuros.length} conjuros`}>{conjuros.length}</span>
+        </h2>
+            <div className="section-panel">
                 {conjuros.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                         {conjuros.map((conjuro, index) => (
                             <ModalButton 
-                                key={index} 
+                                key={conjuro.texto}
                                 title={conjuro.texto}
                                 backgroundColor={backgroundColor}
-                                icon={conjuro.icono && <img src={conjuro.icono} alt="" className="flex items-center w-10 h-10" />}
+                                icon={conjuro.icono && <img src={conjuro.icono} alt="" className="w-full h-full object-contain" />}
                                 modalContent={
                                     <div className="modal-content">
                                     <>

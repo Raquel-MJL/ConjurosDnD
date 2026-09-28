@@ -7,6 +7,7 @@
 }
 
 #root {
+  width: 100%; /* ancho fijo: no se encoge al mostrar menos conjuros */
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -21,9 +22,128 @@
   color: #888;
 }
 
-.webTitle{
-  color:#1F3E2E;
-  font-family:'Eagle Lake';
-  font-size: 220%;
+/* Color de acento según la edición: verde bosque (2014) / marrón cuero (2024) */
+:root { --accent: #1F3E2E; }
+html[data-edition="2024"] { --accent: #6b4a2f; }
+
+.webTitle {
+  color: var(--accent);
+  font-family: 'Eagle Lake';
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
   line-height: 1.2; /*En el responsive puede llegar a montarse la letra*/
+  letter-spacing: 0.01em;
+  transition: color 0.4s;
 }
+
+/* Tinte de fondo según la edición del manual, para distinguirlas de un vistazo */
+html, body {
+  transition: background-color 0.4s;
+}
+html[data-edition="2024"],
+html[data-edition="2024"] body {
+  background-color: #efe4d4; /* marrón pastel suave */
+}
+
+/* Selector de edición: píldora con el botón activo relleno del color de acento */
+.edition-toggle {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 6px 18px -10px rgba(0, 0, 0, 0.3);
+}
+.edition-btn {
+  padding: 0.45em 1.3em;
+  border-radius: 999px;
+  background: transparent !important;
+  font-weight: 500;
+  transition: background-color 0.25s, color 0.25s;
+}
+.edition-btn[aria-pressed="true"] {
+  background: var(--accent) !important;
+}
+.edition-btn[aria-pressed="true"],
+.edition-btn[aria-pressed="true"] * {
+  color: #fff;
+}
+
+/* Tarjetas: cada nivel y el panel de filtros */
+.section-card {
+  margin: 1.25rem 0;
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 12px 28px -16px rgba(0, 0, 0, 0.25);
+  animation: rise 0.45s ease both;
+}
+.filters-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+}
+.filters-card input[type="checkbox"] { accent-color: var(--accent); }
+.section-panel {
+  padding: 1rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+.count-badge {
+  display: inline-block;
+  min-width: 1.9rem;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Botones de conjuro: tarjeta con icono en una ficha blanca y elevación al pasar el ratón */
+.spell-btn {
+  border-radius: 0.9rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  font-weight: 500;
+  transition: transform 0.15s, box-shadow 0.15s, filter 0.15s, border-color 0.25s;
+}
+.spell-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 2px #000, 0 10px 18px -10px rgba(0, 0, 0, 0.4);
+  filter: brightness(0.97);
+}
+.spell-icon {
+  display: flex;
+  flex-shrink: 0;
+  width: 2.9rem;
+  height: 2.9rem;
+  padding: 0.35rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* Ventana con la ficha del conjuro */
+.modal-box { animation: pop 0.2s ease both; }
+.modal-title {
+  font-family: 'Eagle Lake';
+  font-size: 1.4rem;
+  color: var(--accent);
+}
+
+button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+@keyframes pop { from { opacity: 0; transform: scale(0.96); } }
+@media (prefers-reduced-motion: reduce) {
+  .section-card, .modal-box { animation: none; }
+  .spell-btn:hover { transform: none; }
+}
+
+/* Botones de la barra de filtros: sobre el panel casi blanco necesitan borde para verse como botones */
+.filters-card button:not(.border-0) { border-radius: 999px; }
+.filters-card button:not(.border-0):not(:hover) { border-color: rgba(0, 0, 0, 0.15); }
