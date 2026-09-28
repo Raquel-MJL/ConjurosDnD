@@ -1,5 +1,6 @@
 import {React} from 'react';
 import { useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 const ModalButton = ({ 
   icon,
@@ -36,9 +37,9 @@ const ModalButton = ({
         <span>{title}</span>
       </button>
 
-      {/* Modal */}
-      {isModalOpen && (
-  <div 
+      {/* Modal: se monta en el body para que ninguna tarjeta con animación o filtro (containing block) lo recorte */}
+      {isModalOpen && createPortal(
+  <div
     className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50"
     onClick={handleOverlayClick} 
   >
@@ -82,7 +83,8 @@ const ModalButton = ({
         </button>
       </div>
     </div>
-  </div>
+  </div>,
+  document.body
 )}
     </>
   );
