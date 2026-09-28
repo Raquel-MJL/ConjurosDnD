@@ -163,3 +163,14 @@ export function countOptions(facetsList) {
   for (const f of facetsList) for (const g of FILTER_GROUPS) for (const v of new Set(f[g.key])) if (v in counts[g.key]) counts[g.key][v]++;
   return counts;
 }
+
+// Búsqueda de texto: sin distinguir mayúsculas ni acentos; el conjuro debe contener TODAS las palabras escritas.
+const normalize = s => (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+const SEARCH_FIELDS = ['texto', 'escuela', 'componentes', 'tiempoDeLanzamiento', 'alcance', 'duracion', 'ataque', 'clases', 'informacion'];
+
+export const searchTextOf = conjuro => normalize(SEARCH_FIELDS.map(f => conjuro[f]).join(' ').replace(/\*/g, ' '));
+
+export const searchTerms = query => normalize(query).split(/\s+/).filter(Boolean);
+
+export const matchesSearch = (text, terms) => terms.every(t => text.includes(t));
