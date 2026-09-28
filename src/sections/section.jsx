@@ -1,10 +1,11 @@
 import { ModalButton } from '../components/button/button';
 import {React} from 'react';
+import { slugOf } from '../lib/links';
 import './section.css';
 
 
 
-const Section = ({ title, conjuros, backgroundColor = [] }) => {
+const Section = ({ title, conjuros, backgroundColor = [], openSlug, onOpenSpell, onCloseSpell }) => {
     return (
     <section className="section-card mx-auto" style={{ backgroundColor: backgroundColor }}>
         <h2 className="sectionTitle text-left mb-4 flex items-center gap-3">
@@ -17,6 +18,9 @@ const Section = ({ title, conjuros, backgroundColor = [] }) => {
                             <ModalButton 
                                 key={conjuro.texto}
                                 title={conjuro.texto}
+                                isModalOpen={openSlug === slugOf(conjuro.texto)}
+                                onOpen={() => onOpenSpell(slugOf(conjuro.texto))}
+                                onClose={onCloseSpell}
                                 backgroundColor={backgroundColor}
                                 icon={conjuro.icono && <img src={conjuro.icono} alt="" className="w-full h-full object-contain" />}
                                 modalContent={

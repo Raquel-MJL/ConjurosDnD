@@ -302,3 +302,21 @@ button:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .active-chip { animation: none; }
 }
+
+/* Aviso breve al copiar el enlace de un conjuro */
+.copied-toast {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 2rem;
+  width: fit-content;
+  margin: 0 auto; /* centrado sin transform, que la animación rise pisaría */
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.5);
+  font-size: 0.9rem;
+  color: #fff;
+  pointer-events: none; /* el clic lo atraviesa: no cierra el modal */
+  animation: rise 0.25s ease both;
+}

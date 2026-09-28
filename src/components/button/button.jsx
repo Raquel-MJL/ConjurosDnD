@@ -1,9 +1,6 @@
 import {React} from 'react';
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-
-// Setter del modal que está abierto ahora mismo; se usa para cerrarlo al abrir otro y que solo haya uno a la vez.
-let closeActiveModal = null;
 
 const ModalButton = ({
   icon,
@@ -12,9 +9,36 @@ const ModalButton = ({
   buttonClassName = "", 
   backgroundColor =backgroundColor,
   modalTitle = title,
+  isModalOpen = false,
+  onOpen,
+  onClose,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef(null);
+  const [copied, setCopied] = useState(false); // muestra el aviso de "enlace copiado" unos segundos
+
+  useEffect(() => {
+    if (!copied) return;
+    const timer = setTimeout(() => setCopied(false), 2000);
+    return () => clearTimeout(timer);
+  }, [copied]);
+
+  // Copia el enlace del conjuro abierto (la URL ya lo incluye mientras el modal está abierto).
+  const copyLink = async () => {
+    const url = window.location.href;
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch { // sin permiso o sin contexto seguro (http): método antiguo con un campo temporal
+      const field = document.createElement('textarea');
+      field.value = url;
+      field.style.position = 'fixed';
+      field.style.opacity = '0';
+      document.body.appendChild(field);
+      field.select();
+      document.execCommand('copy');
+      field.remove();
+    }
+    setCopied(true);
+  };
 
   // Con el modal abierto la página de fondo no debe moverse: se bloquea su scroll y se compensa el ancho de la barra para que no salte el contenido.
   useEffect(() => {
@@ -29,21 +53,12 @@ const ModalButton = ({
     };
   }, [isModalOpen]);
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    if (closeActiveModal === setIsModalOpen) closeActiveModal = null;
-  };
-  const openModal = () => {
-    if (closeActiveModal && closeActiveModal !== setIsModalOpen) closeActiveModal(false);
-    closeActiveModal = setIsModalOpen;
-    setIsModalOpen(true);
-  };
   
   // Clic fuera del modal
   const handleOverlayClick = (e) => {
     // Si el clic fue en el overlay (no en el contenido del modal)
     if (modalRef.current && !modalRef.current.contains(e.target)) {
-      closeModal();
+      onClose();
     }
   };
 
@@ -51,7 +66,7 @@ const ModalButton = ({
     <>
       {/* Botón con icono y título */}
       <button
-        onClick={openModal}
+        onClick={onOpen}
         style={{backgroundColor:backgroundColor}}
         className={`spell-btn flex items-center gap-3 px-3 py-2 text-black text-left ${buttonClassName}`}
         type="button"
@@ -76,18 +91,36 @@ const ModalButton = ({
           <h3 className="modal-title">
             {modalTitle || title}
           </h3>
-          <button
-            onClick={closeModal}
-            className="text-gray-400 hover:text-gray-500"
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fillRule="evenodd"
-                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={copyLink}
+              className="text-gray-400 hover:text-gray-500"
+              aria-label="Copiar enlace al conjuro"
+              title="Copiar enlace"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-500"
+              aria-label="Cerrar"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
       
@@ -99,13 +132,16 @@ const ModalButton = ({
       {/* Modal footer */}
       <div className="px-6 py-3 bg-gray-50 border-t border-gray-200 flex justify-end flex-shrink-0">
         <button
-          onClick={closeModal}
+          onClick={onClose}
           className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
         >
           Cerrar
         </button>
       </div>
     </div>
+    {copied && (
+      <div className="copied-toast" role="status">Enlace copiado</div>
+    )}
   </div>,
   document.body
 )}
