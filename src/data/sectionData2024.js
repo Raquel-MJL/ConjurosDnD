@@ -2,7 +2,7 @@
 export const Hechizos2024 = [
     {
         id: 1,
-        nivel: "Cantrip",
+        nivel: "Trucos",
         backgroundColor: "#e2e2e2",
         conjuros: [
             {

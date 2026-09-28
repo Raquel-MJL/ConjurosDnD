@@ -10,7 +10,7 @@ export const FILTER_GROUPS = [
     key: 'nivel',
     label: 'Nivel',
     options: [
-      opt('0', 'Cantrip'),
+      opt('0', 'Trucos'),
       ...[1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => opt(String(n), `Nivel ${n}`)),
     ],
   },

@@ -51,7 +51,7 @@ function App() {
   return (
     <>
       <div className="mx-auto px-4 py-8">
-        <h1 className="webTitle text-center mb-5">Conjuros de D&D</h1>
+        <h1 className="webTitle text-center mb-5">Conjuros D&D</h1>
 
         <EditionToggle editions={EDITIONS} value={edition} onChange={setEdition} />
 

@@ -47,28 +47,27 @@ const Filters = ({ filters, onChange, counts, total, shown }) => {
       </div>
 
       {open && (
-        <div id="panel-filtros" className="section-panel mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div id="panel-filtros" className="filters-grid mt-4">
           {FILTER_GROUPS.map(group => (
-            <fieldset key={group.key} className="min-w-0">
-              <legend className="font-semibold mb-1 flex items-center gap-2">
-                {group.label}
+            <fieldset key={group.key} className="filter-group min-w-0">
+              <legend className="filter-legend">
+                <span>{group.label}</span>
                 {filters[group.key].length > 0 && (
-                  <button type="button" onClick={() => clearGroup(group.key)} className="text-xs underline font-normal bg-transparent p-0 border-0 hover:border-0">
+                  <button type="button" onClick={() => clearGroup(group.key)} className="filter-clear border-0">
                     quitar
                   </button>
                 )}
               </legend>
 
               {group.modes && (
-                <div className="flex items-center gap-1 mb-1 text-xs" role="group" aria-label={`Coincidencia en ${group.label}`}>
-                  <span>Coincidir con:</span>
+                <div className="mode-toggle" role="group" aria-label={`Coincidencia en ${group.label}`}>
                   {Object.entries(MODE_LABELS).map(([mode, label]) => (
                     <button
                       key={mode}
                       type="button"
                       aria-pressed={filters.modes[group.key] === mode}
                       onClick={() => setMode(group.key, mode)}
-                      className={`px-2 py-0.5 rounded ${filters.modes[group.key] === mode ? 'bg-gray-300 font-semibold' : 'bg-gray-50'}`}
+                      className="mode-btn border-0"
                     >
                       {label}
                     </button>
@@ -76,18 +75,20 @@ const Filters = ({ filters, onChange, counts, total, shown }) => {
                 </div>
               )}
 
-              <ul className="space-y-1">
+              <ul className="chip-list">
                 {group.options.map(o => (
                   <li key={o.value}>
-                    <label className="flex items-center gap-2 cursor-pointer text-sm">
+                    <label className="chip">
                       <input
                         type="checkbox"
-                        className="h-4 w-4 [color-scheme:light]"
+                        className="chip-input"
                         checked={filters[group.key].includes(o.value)}
                         onChange={() => toggle(group.key, o.value)}
                       />
-                      <span>{o.label}</span>
-                      <span className="text-gray-500 text-xs">({counts[group.key][o.value]})</span>
+                      <span className="chip-body">
+                        <span>{o.label}</span>
+                        <span className="chip-count">{counts[group.key][o.value]}</span>
+                      </span>
                     </label>
                   </li>
                 ))}

@@ -9,7 +9,6 @@ const Section = ({ title, conjuros, backgroundColor = [] }) => {
     <section className="section-card mx-auto" style={{ backgroundColor: backgroundColor }}>
         <h2 className="sectionTitle text-left mb-4 flex items-center gap-3">
             {title}
-            <span className="count-badge" aria-label={`${conjuros.length} conjuros`}>{conjuros.length}</span>
         </h2>
             <div className="section-panel">
                 {conjuros.length > 0 ? (
