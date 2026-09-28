@@ -2,7 +2,10 @@ import {React} from 'react';
 import { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-const ModalButton = ({ 
+// Setter del modal que está abierto ahora mismo; se usa para cerrarlo al abrir otro y que solo haya uno a la vez.
+let closeActiveModal = null;
+
+const ModalButton = ({
   icon,
   title, 
   modalContent, 
@@ -13,8 +16,15 @@ const ModalButton = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef(null);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    if (closeActiveModal === setIsModalOpen) closeActiveModal = null;
+  };
+  const openModal = () => {
+    if (closeActiveModal && closeActiveModal !== setIsModalOpen) closeActiveModal(false);
+    closeActiveModal = setIsModalOpen;
+    setIsModalOpen(true);
+  };
   
   // Clic fuera del modal
   const handleOverlayClick = (e) => {
