@@ -1,4 +1,3 @@
-import {React} from 'react';
 import { useRef, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -7,13 +6,14 @@ const ModalButton = ({
   title, 
   modalContent, 
   buttonClassName = "", 
-  backgroundColor =backgroundColor,
+  backgroundColor,
   modalTitle = title,
   isModalOpen = false,
   onOpen,
   onClose,
 }) => {
   const modalRef = useRef(null);
+  const openerRef = useRef(null); // botón que abrió el modal: recupera el foco al cerrarlo
   const [copied, setCopied] = useState(false); // muestra el aviso de "enlace copiado" unos segundos
 
   useEffect(() => {
@@ -21,6 +21,19 @@ const ModalButton = ({
     const timer = setTimeout(() => setCopied(false), 2000);
     return () => clearTimeout(timer);
   }, [copied]);
+
+  // Con el modal abierto: Esc lo cierra y el foco pasa al cuadro del modal (al cerrar vuelve al botón).
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const opener = openerRef.current;
+    modalRef.current?.focus();
+    const onKey = e => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      opener?.focus();
+    };
+  }, [isModalOpen, onClose]);
 
   // Copia el enlace del conjuro abierto (la URL ya lo incluye mientras el modal está abierto).
   const copyLink = async () => {
@@ -66,6 +79,7 @@ const ModalButton = ({
     <>
       {/* Botón con icono y título */}
       <button
+        ref={openerRef}
         onClick={onOpen}
         style={{backgroundColor:backgroundColor}}
         className={`spell-btn flex items-center gap-3 px-3 py-2 text-black text-left ${buttonClassName}`}
@@ -82,8 +96,12 @@ const ModalButton = ({
     onClick={handleOverlayClick} 
   >
     <div 
-      ref={modalRef} 
-      className="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-auto flex flex-col max-h-[90vh] overflow-hidden" // Ajustado aquí
+      ref={modalRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label={modalTitle || title}
+      tabIndex={-1}
+      className="modal-box bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-auto flex flex-col max-h-[90vh] overflow-hidden outline-none" // Ajustado aquí
     >
       {/* Modal header */}
       <div className="px-6 py-4 border-b border-gray-200 flex-shrink-0">

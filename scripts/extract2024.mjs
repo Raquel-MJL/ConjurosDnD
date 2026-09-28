@@ -3,6 +3,9 @@
 //
 // El PDF tiene una capa de texto por OCR, así que el resultado puede arrastrar erratas del PDF.
 // Los conjuros cuyo texto sale demasiado roto se corrigen a mano en OVERRIDES.
+//
+// OJO: src/data/sectionData2024.js se corrigió después a mano (dados, unidades, tablas, fichas de criaturas...).
+// Volver a ejecutar este script SOBRESCRIBE esas correcciones.
 import { execFileSync } from 'node:child_process';
 import { existsSync, writeFileSync } from 'node:fs';
 import { Hechizos } from '../src/data/sectionData.js';

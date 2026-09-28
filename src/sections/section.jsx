@@ -1,6 +1,6 @@
 import { ModalButton } from '../components/button/button';
-import {React} from 'react';
-import { slugOf } from '../lib/links';
+import React from 'react';
+import { slugOf, iconUrl } from '../lib/links';
 import './section.css';
 
 
@@ -14,7 +14,7 @@ const Section = ({ title, conjuros, backgroundColor = [], openSlug, onOpenSpell,
             <div className="section-panel">
                 {conjuros.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                        {conjuros.map((conjuro, index) => (
+                        {conjuros.map((conjuro) => (
                             <ModalButton 
                                 key={conjuro.texto}
                                 title={conjuro.texto}
@@ -22,7 +22,7 @@ const Section = ({ title, conjuros, backgroundColor = [], openSlug, onOpenSpell,
                                 onOpen={() => onOpenSpell(slugOf(conjuro.texto))}
                                 onClose={onCloseSpell}
                                 backgroundColor={backgroundColor}
-                                icon={conjuro.icono && <img src={conjuro.icono} alt="" className="w-full h-full object-contain" />}
+                                icon={conjuro.icono && <img src={iconUrl(conjuro.icono)} alt="" className="w-full h-full object-contain" />}
                                 modalContent={
                                     <div className="modal-content">
                                     <>
@@ -36,10 +36,10 @@ const Section = ({ title, conjuros, backgroundColor = [], openSlug, onOpenSpell,
                                     <div> {/*Incluye dos saltos de línea por cada * en el apartado "información" del archivo sectionData.js*/}
                                         <strong>Información:</strong>
                                         {conjuro.informacion.split('*').map((line, index) => (
-                                            <>
-                                                <p key={index}>{line}</p>
-                                                <br /> 
-                                            </>
+                                            <React.Fragment key={index}>
+                                                <p>{line}</p>
+                                                <br />
+                                            </React.Fragment>
                                         ))}
                                     </div>
                                     </>

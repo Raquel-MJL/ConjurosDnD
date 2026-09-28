@@ -14,3 +14,7 @@ export function parseLink() {
   if (!m) return null;
   try { return { edition: m[1], slug: decodeURIComponent(m[2]) }; } catch { return null; }
 }
+
+// Los iconos de los datos se escriben como "../assets/nivel1/x.svg"; se resuelven contra la base de la app
+// para que sigan funcionando si se publica en una subcarpeta.
+export const iconUrl = icono => `${import.meta.env.BASE_URL}${icono.replace(/^\.\.\//, '')}`;
