@@ -6,7 +6,6 @@ import {Hechizos} from './data/sectionData';
 
 function App() {
   const [count, setCount] = useState(0)
-  Hechizos.reverse();
   return (
     <>
       <div className="mx-auto px-4 py-8">

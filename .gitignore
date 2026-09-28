@@ -128,3 +128,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Manual oficial (PDF de 171 MB, con copyright): no subir al repositorio
+Manual del Jugador 2014.pdf

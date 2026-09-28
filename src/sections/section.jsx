@@ -20,6 +20,7 @@ const Section = ({ title, conjuros, backgroundColor = [] }) => {
                                 modalContent={
                                     <div className="modal-content">
                                     <>
+                                    <p><strong>Escuela:</strong> {conjuro.escuela}</p>
                                     <p><strong>Componentes:</strong> {conjuro.componentes}</p>
                                     <p><strong>Tiempo de Lanzamiento:</strong> {conjuro.tiempoDeLanzamiento}</p>
                                     <p><strong>Alcance:</strong> {conjuro.alcance}</p>
